@@ -199,6 +199,38 @@ so motion doesn't delay LCP or cause layout shift.
 sent, queued or loaded. After consent, events go to `window.dataLayer`. To connect GA4 or
 GTM, load the vendor script in `loadVendor()`.
 
+## Codebase knowledge graph (Graphify)
+
+[Graphify](https://github.com/Graphify-Labs/graphify) maps the repo into a knowledge graph,
+so AI coding assistants can query structure instead of grepping files. Code is parsed
+locally with tree-sitter: no LLM, no API key, about 3 seconds for this repo.
+
+```bash
+uv tool install graphifyy==0.9.84   # or: pipx install graphifyy==0.9.84
+pnpm graph                          # = graphify update . → graphify-out/
+graphify query "where are prices formatted?"
+graphify path "SizeCard" "formatPrice"
+graphify explain "LanguageSwitcher"
+open graphify-out/graph.html        # interactive map
+```
+
+- `graphify-out/` is generated and gitignored. Rebuild it after pulling or changing code.
+  For a local rebuild on every commit, run `graphify hook install` once.
+- **Claude Code**:
+  - The project-scoped `/graphify` skill lives in `.claude/skills/graphify/`.
+  - `CLAUDE.md` tells Claude to query the graph first.
+  - The PreToolUse hooks in `.claude/settings.json` nudge it towards `graphify query` before
+    grepping or reading files. They do nothing if Graphify isn't installed.
+- **Claude Code cloud sessions**: `.claude/hooks/session-start.sh` runs `pnpm install`,
+  installs the pinned Graphify version and builds the graph when a session starts.
+- **Other agents** (Codex, Cursor, …) get the same rules from `AGENTS.md`.
+- **Upgrading Graphify**:
+  1. Install the new version.
+  2. Run `graphify install --project` and `graphify claude install` to refresh the skill.
+  3. In `.claude/settings.json`, restore the portable hook commands (`command -v graphify … || true`).
+     Graphify writes absolute paths there.
+- `.graphifyignore` keeps lockfiles, fonts and media out of the graph.
+
 ## Quality checks
 
 Measured on the production build:

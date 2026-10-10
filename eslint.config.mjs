@@ -23,6 +23,8 @@ const eslintConfig = defineConfig([
     "messages/*.d.json.ts",
     "playwright-report/**",
     "test-results/**",
+    "graphify-out/**",
+    ".claude/**",
   ]),
 ]);
 
