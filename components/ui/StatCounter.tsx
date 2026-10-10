@@ -7,10 +7,18 @@ type StatCounterProps = {
   label: string;
   decimals?: number;
   className?: string;
+  labelClassName?: string;
 };
 
 /** A key number (18 g, 0%, 64 kcal, 2) that counts up once when in view. */
-export function StatCounter({ value, unit, label, decimals = 0, className }: StatCounterProps) {
+export function StatCounter({
+  value,
+  unit,
+  label,
+  decimals = 0,
+  className,
+  labelClassName,
+}: StatCounterProps) {
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <p className="flex items-baseline gap-1.5 font-body leading-none font-medium text-accent">
@@ -21,7 +29,7 @@ export function StatCounter({ value, unit, label, decimals = 0, className }: Sta
         />
         {unit && <span className="text-h3">{unit}</span>}
       </p>
-      <p className="text-small text-fg-muted">{label}</p>
+      <p className={cn("text-small text-fg-muted", labelClassName)}>{label}</p>
     </div>
   );
 }

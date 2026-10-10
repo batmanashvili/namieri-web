@@ -9,6 +9,8 @@ type StickyMobileCTAProps = {
   children: ReactNode;
   /** Show after this many px of scroll (default: 60% of the viewport). */
   showAfter?: number;
+  /** Instead of a scroll distance, show once the element with this id has left the viewport. */
+  afterElementId?: string;
   className?: string;
 };
 
@@ -17,11 +19,28 @@ type StickyMobileCTAProps = {
  * visitor scrolls past the hero and reserves its own space at the end of the
  * page so it never covers the footer.
  */
-export function StickyMobileCTA({ children, showAfter, className }: StickyMobileCTAProps) {
+export function StickyMobileCTA({
+  children,
+  showAfter,
+  afterElementId,
+  className,
+}: StickyMobileCTAProps) {
   const t = useTranslations("StickyCta");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const target = afterElementId ? document.getElementById(afterElementId) : null;
+    if (!target) return;
+    // Visible once the element is entirely above the viewport (not while it is still below).
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry) setVisible(!entry.isIntersecting && entry.boundingClientRect.bottom <= 0);
+    });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [afterElementId]);
+
+  useEffect(() => {
+    if (afterElementId) return;
     let frame = 0;
     const update = () => {
       frame = 0;
@@ -37,11 +56,11 @@ export function StickyMobileCTA({ children, showAfter, className }: StickyMobile
       window.removeEventListener("scroll", onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [showAfter]);
+  }, [showAfter, afterElementId]);
 
   return (
     <>
-      <div aria-hidden="true" className="h-20 md:hidden" />
+      <div aria-hidden="true" className="h-20 bg-navy-950 md:hidden" />
       <aside
         aria-label={t("label")}
         data-surface="navy"

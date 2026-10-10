@@ -22,6 +22,8 @@ type SizeCardProps = {
   priceGel?: number;
   /** loading: price still fetching. error: price failed and there is no usable fallback. */
   state?: "ready" | "loading" | "error";
+  /** One line under the heading, e.g. "One serving, on the go". */
+  description?: ReactNode;
   /** Replaces the default "Add to cart" button. */
   action?: ReactNode;
   headingLevel?: "h2" | "h3";
@@ -36,6 +38,7 @@ export function SizeCard({
   size,
   priceGel,
   state = "ready",
+  description,
   action,
   headingLevel: Heading = "h3",
   className,
@@ -73,7 +76,7 @@ export function SizeCard({
           {size.label[locale]}
         </Heading>
         <p className="mt-1 text-small text-fg-muted">{size.packaging[locale]}</p>
-        <p className="mt-6 text-body text-fg-muted">{t("comingSoonNote")}</p>
+        <p className="mt-6 text-body text-fg-muted">{description ?? t("comingSoonNote")}</p>
       </article>
     );
   }
@@ -94,6 +97,7 @@ export function SizeCard({
         </Heading>
         <p className="text-small text-fg-muted">{size.packaging[locale]}</p>
       </div>
+      {description && <p className="mt-2 text-body text-fg-muted">{description}</p>}
 
       <div className="mt-5 min-h-16" aria-live="polite">
         {state === "loading" ? (

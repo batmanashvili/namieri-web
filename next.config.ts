@@ -6,6 +6,9 @@ const withNextIntl = createNextIntlPlugin({
   experimental: {
     // Generates messages/en.d.json.ts so translation keys are type-checked.
     createMessagesDeclaration: "./messages/en.json",
+    // Compiles ICU messages at build time, so the browser gets a small formatter
+    // instead of the full ICU parser (keeps JS before the hero paint down).
+    messages: { path: "./messages", format: "json", locales: "infer", precompile: true },
   },
 });
 

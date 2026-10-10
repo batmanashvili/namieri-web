@@ -68,6 +68,9 @@ export function TestimonialCard({ quote, name, source, className }: TestimonialC
 
 type RecipeCardProps = {
   href: string;
+  /** Opens off-site (e.g. the Instagram post) in a new tab; pass newTabLabel for screen readers. */
+  external?: boolean;
+  newTabLabel?: string;
   title: string;
   image: { src: string; alt: string };
   meta: string[];
@@ -75,9 +78,15 @@ type RecipeCardProps = {
   className?: string;
 };
 
+const recipeLink =
+  "underline decoration-transparent decoration-1 underline-offset-[0.25em] transition-[text-decoration-color] " +
+  "group-hover/recipe:decoration-current after:absolute after:inset-0 after:content-['']";
+
 /** The whole card is one link (a stretched pseudo-element), so there is a single tab stop. */
 export function RecipeCard({
   href,
+  external = false,
+  newTabLabel,
   title,
   image,
   meta,
@@ -102,12 +111,16 @@ export function RecipeCard({
         ))}
       </ul>
       <H className="font-display text-h3 font-semibold">
-        <Link
-          href={href}
-          className="underline decoration-transparent decoration-1 underline-offset-[0.25em] transition-[text-decoration-color] group-hover/recipe:decoration-current after:absolute after:inset-0 after:content-['']"
-        >
-          {title}
-        </Link>
+        {external ? (
+          <a href={href} target="_blank" rel="noopener noreferrer" className={recipeLink}>
+            {title}
+            {newTabLabel && <span className="sr-only"> {newTabLabel}</span>}
+          </a>
+        ) : (
+          <Link href={href} className={recipeLink}>
+            {title}
+          </Link>
+        )}
       </H>
     </article>
   );

@@ -1,65 +1,53 @@
 import type { Metadata } from "next";
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { Hero } from "@/components/home/Hero";
+import { HomeAnnouncement } from "@/components/home/HomeAnnouncement";
+import { HomeBuy } from "@/components/home/HomeBuy";
+import { HomeFaq } from "@/components/home/HomeFaq";
+import { HomeStickyCta } from "@/components/home/HomeStickyCta";
+import { Ingredients } from "@/components/home/Ingredients";
+import { Kitchen } from "@/components/home/Kitchen";
+import { Moments } from "@/components/home/Moments";
+import { Numbers } from "@/components/home/Numbers";
+import { Process } from "@/components/home/Process";
+import { Quality } from "@/components/home/Quality";
+import { Sizes } from "@/components/home/Sizes";
+import { Testimonials } from "@/components/home/Testimonials";
+import { Why } from "@/components/home/Why";
 import { SiteShell } from "@/components/sections/SiteShell";
-import { Button } from "@/components/ui/Button";
-import { Plinth } from "@/components/ui/Plinth";
-import { Section } from "@/components/ui/Section";
-import { Eyebrow, Heading, Text } from "@/components/ui/Typography";
-import { links } from "@/content/product";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { initLocale } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo";
+import { organizationJsonLd } from "@/lib/structured-data";
 
-// Holding page until the landing page ships in Phase 2. Kept out of search results.
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const locale = await initLocale(params);
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  return pageMetadata({ locale, path: "/", description: t("description"), noindex: true });
+  return pageMetadata({ locale, path: "/", description: t("description") });
 }
 
+/** The landing page: 14 sections, from the announcement bar to the footer (Prompt 2). */
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
-  await initLocale(params);
-  return <Holding />;
-}
-
-function Holding() {
-  const t = useTranslations("Home");
-  const tCommon = useTranslations("Common");
+  const locale = await initLocale(params);
   return (
-    <SiteShell headerVariant="overlay">
-      <Section tone="navy" className="under-header" waveBottom="ink" waveDrift>
-        <div className="container-page grid min-h-[70svh] content-center justify-items-start gap-6">
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <Heading as="h1" size="display" className="max-w-[14ch]">
-            {t("title")}
-          </Heading>
-          <Text tone="muted">{t("text")}</Text>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <Button
-              href={links.instagram}
-              external
-              newTabLabel={tCommon("opensInNewTab")}
-              iconStart="instagram"
-            >
-              {t("instagram")}
-            </Button>
-            {links.wolt && (
-              <Button
-                href={links.wolt}
-                external
-                newTabLabel={tCommon("opensInNewTab")}
-                variant="secondary"
-              >
-                {tCommon("orderOnWolt")}
-              </Button>
-            )}
-          </div>
-          <Plinth
-            variant="column"
-            className="pointer-events-none absolute right-[6vw] bottom-0 hidden h-[60%] opacity-25 md:block"
-          />
-        </div>
-      </Section>
+    <SiteShell
+      headerVariant="overlay"
+      announcement={<HomeAnnouncement locale={locale} />}
+      stickyCta={<HomeStickyCta locale={locale} />}
+    >
+      <JsonLd data={organizationJsonLd(locale)} />
+      <Hero />
+      <Ingredients />
+      <Numbers />
+      <Process locale={locale} />
+      <Why />
+      <Moments locale={locale} />
+      <Sizes locale={locale} />
+      <Quality />
+      <Kitchen locale={locale} />
+      <Testimonials locale={locale} />
+      <HomeBuy />
+      <HomeFaq locale={locale} />
     </SiteShell>
   );
 }

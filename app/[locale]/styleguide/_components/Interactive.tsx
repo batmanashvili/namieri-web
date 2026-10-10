@@ -22,6 +22,7 @@ import { YogurtWave } from "@/components/ui/YogurtWave";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Spinner } from "@/components/ui/Spinner";
 import { ToastView } from "@/components/ui/Toast";
+import { districts } from "@/content/districts";
 import { isAvailable, sizes } from "@/content/product";
 import { formatPrice } from "@/lib/format";
 import { DialogDemo, PhoneDemo, ToastDemo, TwoIngredientsScene } from "./Demos";
@@ -37,12 +38,7 @@ export function FormsSection({ index }: { index: number }) {
   const tProduct = useTranslations("Product");
   const locale = useLocale();
 
-  const districts = (["saburtalo", "vake", "vera", "didube", "isani", "gldani"] as const).map(
-    (key) => ({
-      value: key,
-      label: f(`districts.${key}`),
-    }),
-  );
+  const districtOptions = districts.map((d) => ({ value: d.id, label: d.name[locale] }));
 
   return (
     <SgSection id="forms" index={index} lead={t("lead")}>
@@ -102,7 +98,7 @@ export function FormsSection({ index }: { index: number }) {
                 error={tone === "white" ? f("requiredError") : undefined}
               >
                 <Select
-                  options={districts}
+                  options={districtOptions}
                   placeholder={f("selectPlaceholder")}
                   defaultValue={tone === "cream" ? "vake" : undefined}
                 />

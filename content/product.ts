@@ -167,11 +167,32 @@ export const company = {
 
 const env = (value: string | undefined) => (value && value.length > 0 ? value : undefined);
 
+const instagram =
+  env(process.env.NEXT_PUBLIC_INSTAGRAM_URL) ?? "https://www.instagram.com/namieri.ge/";
+const facebook = env(process.env.NEXT_PUBLIC_FACEBOOK_URL);
+
 export const links = {
   wolt: env(process.env.NEXT_PUBLIC_WOLT_URL),
-  instagram: env(process.env.NEXT_PUBLIC_INSTAGRAM_URL) ?? "https://www.instagram.com/namieri.ge/",
-  facebook: env(process.env.NEXT_PUBLIC_FACEBOOK_URL),
+  instagram,
+  facebook,
+  /** Opens a direct-message thread: ig.me/m/<handle>. */
+  instagramDm: instagramDmUrl(instagram),
+  /** Messenger thread for the page (m.me/<page>), or the page itself if no username is known. */
+  facebookDm: env(process.env.NEXT_PUBLIC_MESSENGER_URL) ?? messengerUrl(facebook),
 } as const;
+
+/** Instagram profile URL → ig.me DM link; falls back to the profile URL. */
+export function instagramDmUrl(profileUrl: string): string {
+  const handle = profileUrl.match(/instagram\.com\/([A-Za-z0-9._]+)/)?.[1];
+  return handle ? `https://ig.me/m/${handle}` : profileUrl;
+}
+
+/** Facebook page URL → m.me link when the page has a username; otherwise the page URL. */
+export function messengerUrl(pageUrl: string | undefined): string | undefined {
+  if (!pageUrl) return undefined;
+  const page = pageUrl.match(/facebook\.com\/(?!profile\.php)([A-Za-z0-9.-]+)\/?$/)?.[1];
+  return page ? `https://m.me/${page}` : pageUrl;
+}
 
 // ---------------------------------------------------------------------------
 // Derived helpers (available sizes only)
@@ -182,6 +203,16 @@ export function isAvailable(size: ProductSize): size is AvailableSize {
 }
 
 export const availableSizes = sizes.filter(isAvailable);
+
+export function findSize(id: string): ProductSize | undefined {
+  return sizes.find((size) => size.id === id);
+}
+
+/** Lowest retail price among available sizes, for "from 4,50 ₾". */
+export function lowestPriceGel(list: readonly ProductSize[] = sizes): number | undefined {
+  const prices = list.filter(isAvailable).map((size) => size.fallbackPriceGel);
+  return prices.length ? Math.min(...prices) : undefined;
+}
 
 /** Grams of protein in one pack: weightGrams × 0.12. */
 export function proteinPerPack(size: AvailableSize): number {

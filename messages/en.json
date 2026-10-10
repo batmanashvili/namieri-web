@@ -8,7 +8,35 @@
     "ogAlt": "Namieri Greek yogurt",
     "styleguideTitle": "Styleguide",
     "styleguideDescription": "Namieri design tokens, type scale and component library.",
-    "notFoundTitle": "Page not found"
+    "notFoundTitle": "Page not found",
+    "pages": {
+      "about": {
+        "title": "About us",
+        "description": "Namieri began with our own search for a Greek yogurt made from nothing but milk and live cultures. Made in Tbilisi, every batch tested.",
+        "og": "We made the yogurt we couldn't find"
+      },
+      "whereToBuy": {
+        "title": "Where to buy",
+        "description": "Order Namieri Greek yogurt on Wolt (Namieri Saburtalo) or by message on Instagram and Facebook. Delivery within Tbilisi.",
+        "og": "Order on Wolt or message us"
+      },
+      "contact": {
+        "title": "Contact and wholesale",
+        "description": "Call, email or visit Namieri at 25 Niko Buri St, Tbilisi. Shops, cafés, restaurants and gyms can send a wholesale enquiry.",
+        "og": "Contact and wholesale"
+      },
+      "faq": {
+        "title": "FAQ",
+        "description": "How to store Namieri, what's in it, where we deliver and how to cancel an order.",
+        "og": "Questions, answered"
+      },
+      "terms": {
+        "description": "Terms and conditions for ordering Namieri Greek yogurt."
+      },
+      "privacy": {
+        "description": "How Namieri handles your data on this website."
+      }
+    }
   },
   "Common": {
     "brand": "Namieri",
@@ -23,7 +51,8 @@
     "tryAgain": "Try again",
     "opensInNewTab": "(opens in a new tab)",
     "required": "required",
-    "optional": "optional"
+    "optional": "optional",
+    "fromPrice": "from {price}"
   },
   "Nav": {
     "label": "Main",
@@ -31,7 +60,6 @@
     "product": "Greek yogurt",
     "about": "About us",
     "whereToBuy": "Where to buy",
-    "recipes": "Recipes",
     "faq": "FAQ",
     "contact": "Contact",
     "openMenu": "Open menu",
@@ -76,7 +104,7 @@
   "Product": {
     "name": "Greek yogurt",
     "comingSoon": "Coming soon",
-    "comingSoonNote": "Details when it launches.",
+    "comingSoonNote": "A new size is on its way",
     "price": "Price",
     "pricePer100g": "{price} per 100 g",
     "proteinPerPack": "protein per pack",
@@ -111,7 +139,7 @@
     "opened": "{days, number} days after opening"
   },
   "Stats": {
-    "protein": "protein in one 150 g cup",
+    "protein": "protein per {grams, number} g serving",
     "fat": "fat",
     "kcal": "per 100 g",
     "ingredients": "ingredients",
@@ -130,14 +158,6 @@
     "messageHint": "Tell us what you need: weekly volume, sizes, delivery days.",
     "district": "District",
     "selectPlaceholder": "Choose…",
-    "districts": {
-      "saburtalo": "Saburtalo",
-      "vake": "Vake",
-      "vera": "Vera",
-      "didube": "Didube",
-      "isani": "Isani",
-      "gldani": "Gldani"
-    },
     "consent": "I agree that Namieri may contact me about this request",
     "requiredError": "This field is required",
     "quantity": "Quantity",
@@ -180,10 +200,271 @@
     "text": "Please try again. If it keeps happening, call us on {phone}."
   },
   "Home": {
-    "eyebrow": "Greek yogurt · Tbilisi",
-    "title": "Just milk and live cultures.",
-    "text": "The new Namieri website is on its way. Until then, find us on Instagram.",
-    "instagram": "Follow on Instagram"
+    "hero": {
+      "eyebrow": "Greek yogurt · Made in Tbilisi",
+      "title": "Greek yogurt, the way it should be",
+      "subtitle": "{protein, number} g of protein per serving, {fat, number}% fat and just two ingredients."
+    },
+    "ingredients": {
+      "eyebrow": "Two ingredients",
+      "title": "Milk and live cultures. That's all.",
+      "not": "No thickeners, no added sugar, no vegetable fat, no preservatives.",
+      "milk": "Milk",
+      "cultures": "Live cultures"
+    },
+    "numbers": {
+      "title": "Namieri in numbers"
+    },
+    "process": {
+      "eyebrow": "How it's made",
+      "title": "Made slowly, strained thick",
+      "step": "Step {number, number}",
+      "steps": {
+        "milk": "Georgian milk, tested on arrival",
+        "cultures": "Live cultures are added",
+        "ferment": "Slow fermentation",
+        "strain": "Strained of whey until thick and creamy"
+      }
+    },
+    "why": {
+      "eyebrow": "Nutrition",
+      "title": "Why Namieri",
+      "protein": {
+        "title": "High in protein",
+        "text": "Protein contributes to the maintenance of muscle mass. {protein, number} g in every {grams, number} g serving."
+      },
+      "fat": {
+        "title": "Fat-free",
+        "text": "{kcal, number} kcal per 100 g."
+      },
+      "sugar": {
+        "title": "No added sugar",
+        "text": "Only milk's natural sugar."
+      },
+      "cultures": {
+        "title": "Made with live cultures",
+        "text": "Cultures: {cultures}."
+      }
+    },
+    "moments": {
+      "eyebrow": "Every day",
+      "title": "Made for your day",
+      "choose": "Choose {size}",
+      "chooseAny": "Choose your size",
+      "training": {
+        "title": "After training",
+        "text": "{protein, number} g of protein in one cup, with nothing else added."
+      },
+      "breakfast": {
+        "title": "At breakfast",
+        "text": "Thick and creamy, with honey, walnuts or berries."
+      },
+      "family": {
+        "title": "At the family table",
+        "text": "The {size} tub for the whole table, and for sauces, dips and baking."
+      }
+    },
+    "sizes": {
+      "eyebrow": "Two sizes, one recipe",
+      "title": "Choose your size",
+      "choose": "Choose {size}",
+      "listLabel": "Sizes",
+      "taglines": {
+        "cup-150": "One serving, on the go",
+        "tub-500": "Family size, resealable"
+      }
+    },
+    "quality": {
+      "eyebrow": "Every batch",
+      "title": "Quality you can trust",
+      "farmers": {
+        "title": "Local milk",
+        "text": "From partner farmers in Georgia, tested on arrival."
+      },
+      "tested": {
+        "title": "Every batch tested",
+        "text": "For cleanliness, fat content and microbiology."
+      },
+      "consistent": {
+        "title": "Same taste, every batch",
+        "text": "One recipe and one process, so every cup tastes the same."
+      },
+      "clean": {
+        "title": "Clean composition",
+        "text": "Milk and live cultures. No additives, no preservatives, no vegetable fats."
+      },
+      "credentials": "Food safety",
+      "haccp": "HACCP food-safety system",
+      "nfa": "Recognised by the National Food Agency"
+    },
+    "kitchen": {
+      "eyebrow": "In the kitchen",
+      "title": "Namieri recipes",
+      "text": "Simple ideas from our Instagram recipe series.",
+      "minutes": "{minutes, number} min",
+      "uses": "Uses {size}",
+      "instagram": "More recipes on Instagram"
+    },
+    "testimonials": {
+      "eyebrow": "Reviews",
+      "title": "What people say"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Questions, answered",
+      "all": "See all questions"
+    }
+  },
+  "Buy": {
+    "eyebrow": "Where to buy",
+    "title": "Order the way you like",
+    "text": "Delivery within Tbilisi, through Wolt or a direct message.",
+    "wolt": {
+      "title": "Wolt",
+      "text": "Order from Namieri Saburtalo and get it delivered.",
+      "search": "Search for “Namieri Saburtalo” in the Wolt app."
+    },
+    "dm": {
+      "title": "Message us",
+      "text": "Order directly on Instagram or Facebook and we'll arrange delivery.",
+      "instagram": "Message on Instagram",
+      "facebook": "Message on Facebook"
+    },
+    "stores": {
+      "title": "In stores",
+      "text": "{count, plural, one {Find Namieri in # store in Tbilisi.} other {Find Namieri in # stores in Tbilisi.}}",
+      "link": "See stores"
+    }
+  },
+  "WhereToBuy": {
+    "eyebrow": "Where to buy",
+    "title": "Where to buy Namieri",
+    "lead": "Order on Wolt, message us directly, or find us in stores.",
+    "storesTitle": "Stores",
+    "storesEmptyTitle": "Stores coming soon",
+    "storesEmptyText": "We're adding our first retail partners. Until then, order on Wolt or message us.",
+    "district": "District",
+    "address": "Address",
+    "hours": "Hours",
+    "openMap": "Open in Google Maps",
+    "wholesaleTitle": "Want to sell Namieri?",
+    "wholesaleText": "Shops, cafés, restaurants and gyms can order wholesale.",
+    "wholesaleLink": "Wholesale enquiry"
+  },
+  "About": {
+    "eyebrow": "About us",
+    "title": "We made the yogurt we couldn't find",
+    "story1": "We were Greek-yogurt eaters ourselves. We read every label on the shelf and couldn't find one that met our standards: thick, honest and made from nothing but milk and cultures. So we made it.",
+    "story2": "Namieri is made in Tbilisi from fresh Georgian milk and live cultures, strained slowly until it is thick and creamy. Nothing else goes in.",
+    "valuesEyebrow": "Our values",
+    "valuesTitle": "Quality, purity, trust",
+    "values": {
+      "quality": {
+        "title": "Quality",
+        "text": "Fresh Georgian milk, a slow process and a recipe we never cut corners on."
+      },
+      "purity": {
+        "title": "Purity",
+        "text": "Two ingredients: milk and live cultures. No additives, no preservatives, no vegetable fats."
+      },
+      "trust": {
+        "title": "Trust",
+        "text": "Every batch tested, a HACCP food-safety system, and a label that tells you everything."
+      }
+    },
+    "sourcingEyebrow": "From farm to cup",
+    "sourcingTitle": "Georgian milk, checked at every step",
+    "sourcing": {
+      "farmers": "Milk comes from partner farmers in Georgia.",
+      "arrival": "Every delivery of milk is tested on arrival.",
+      "batches": "Every batch is tested for cleanliness, fat content and microbiology.",
+      "haccp": "Production follows a HACCP food-safety system."
+    },
+    "missionEyebrow": "Our mission",
+    "mission": "To be the everyday, healthy and delicious choice for every Georgian family.",
+    "factsEyebrow": "Company",
+    "factsTitle": "Company facts",
+    "facts": {
+      "legalName": "Company",
+      "idCode": "ID code",
+      "address": "Address",
+      "recognition": "Recognition code",
+      "foodSafety": "Food safety",
+      "haccp": "HACCP system in place",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "ctaTitle": "Taste the difference two ingredients make"
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "title": "Get in touch",
+    "lead": "A question about an order, or interested in selling Namieri? We're here.",
+    "detailsTitle": "Call, write or visit",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "map": {
+      "title": "Map",
+      "show": "Show map",
+      "note": "The map loads from Google Maps, which may set cookies.",
+      "open": "Open in Google Maps",
+      "frameTitle": "Map: Namieri, {address}"
+    },
+    "wholesale": {
+      "eyebrow": "Wholesale",
+      "title": "Sell Namieri in your business",
+      "text": "For shops, cafés, restaurants and gyms. Tell us about your business and we'll be in touch."
+    },
+    "form": {
+      "label": "Wholesale enquiry",
+      "requiredNote": "Fields marked * are required.",
+      "businessName": "Business name",
+      "contactName": "Contact person",
+      "emailHint": "Optional. We'll send details here.",
+      "businessType": "Business type",
+      "businessTypes": {
+        "shop": "Shop",
+        "cafe": "Café",
+        "restaurant": "Restaurant",
+        "gym": "Gym",
+        "other": "Other"
+      },
+      "sizes": "Sizes of interest",
+      "weeklyVolume": "Estimated weekly volume",
+      "weeklyVolumes": {
+        "under50": "Under 50 packs",
+        "50to200": "50–200 packs",
+        "200to500": "200–500 packs",
+        "over500": "Over 500 packs"
+      },
+      "messageHint": "Delivery days, questions, anything else.",
+      "submit": "Send enquiry",
+      "tooLong": "Please shorten this to {max, number} characters",
+      "chooseError": "Choose one of the options",
+      "consentError": "Please agree so we can contact you",
+      "errorSummary": "{count, plural, one {Please check # field below.} other {Please check # fields below.}}",
+      "successTitle": "Thank you, we've received your enquiry",
+      "successText": "We'll contact you soon about wholesale supply.",
+      "again": "Send another enquiry",
+      "failureTitle": "We couldn't send your enquiry",
+      "failureText": "Please try again, or contact us directly:",
+      "honeypot": "Leave this field empty"
+    }
+  },
+  "Faq": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "lead": "Storage, ingredients, delivery and orders.",
+    "moreTitle": "Still have a question?",
+    "moreText": "Call or write to us and we'll help.",
+    "contact": "Contact us"
+  },
+  "Legal": {
+    "eyebrow": "Legal",
+    "draft": "Draft",
+    "draftText": "This text is a draft. The final version will replace it before online ordering opens.",
+    "updated": "Last updated {date}"
   },
   "Styleguide": {
     "eyebrow": "Phase 1 · Design system",

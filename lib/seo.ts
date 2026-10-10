@@ -11,6 +11,8 @@ type PageMetadataInput = {
   description?: string;
   /** Keep the page out of search results (styleguide, placeholders). */
   noindex?: boolean;
+  /** The page has its own opengraph-image.tsx; otherwise the locale's default is used. */
+  ownOgImage?: boolean;
 };
 
 const localized = (locale: Locale, path: string) => `/${locale}${path === "/" ? "" : path}`;
@@ -25,11 +27,16 @@ export function pageMetadata({
   title,
   description,
   noindex = false,
+  ownOgImage = false,
 }: PageMetadataInput): Metadata {
+  const ogImage = ownOgImage
+    ? `${localized(locale, path)}/opengraph-image`
+    : `/${locale}/opengraph-image`;
   const languages = Object.fromEntries(locales.map((l) => [l, localized(l, path)]));
   return {
-    title,
-    description,
+    // Omitted keys keep the layout's defaults; an explicit undefined would clear them.
+    ...(title ? { title } : {}),
+    ...(description ? { description } : {}),
     alternates: {
       canonical: localized(locale, path),
       languages: { ...languages, "x-default": localized("ka", path) },
@@ -39,7 +46,7 @@ export function pageMetadata({
       type: "website",
       siteName: product.brand[locale],
       url: localized(locale, path),
-      images: [{ url: `/${locale}/opengraph-image`, ...ogSize, alt: product.brand[locale] }],
+      images: [{ url: ogImage, ...ogSize, alt: product.brand[locale] }],
       locale: ogLocale[locale],
       alternateLocale: locales.filter((l) => l !== locale).map((l) => ogLocale[l]),
       ...(title ? { title } : {}),
