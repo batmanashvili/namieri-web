@@ -1,4 +1,5 @@
 import Image, { type ImageProps } from "next/image";
+import type { ImageRatio } from "@/content/media";
 import { cn } from "@/lib/cn";
 
 const ratios = {
@@ -7,13 +8,13 @@ const ratios = {
   "3/4": "aspect-[3/4]",
   "16/9": "aspect-video",
   "3/2": "aspect-[3/2]",
-} as const;
+} as const satisfies Record<ImageRatio, string>;
 
 type ResponsiveImageProps = Omit<ImageProps, "fill" | "width" | "height" | "alt"> & {
   /** Required, in the page language. Pass "" only for purely decorative images. */
   alt: string;
   /** The box reserves this ratio before the image loads, so there is no layout shift. */
-  ratio?: keyof typeof ratios;
+  ratio?: ImageRatio;
   /** next/image `sizes`; defaults to full width on mobile, half on desktop. */
   sizes?: string;
   rounded?: boolean;

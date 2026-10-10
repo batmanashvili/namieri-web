@@ -11,6 +11,7 @@ import {
   availableSizes,
   ingredients,
   nutritionPer100g,
+  SERVING_GRAMS,
   proteinPerPack,
   sizes,
 } from "@/content/product";
@@ -39,7 +40,7 @@ export function ContentSection({ index }: { index: number }) {
               <StatCounter
                 value={proteinPerPack(cup)}
                 unit={tStats("unitG")}
-                label={tStats("protein")}
+                label={tStats("protein", { grams: SERVING_GRAMS })}
               />
               <StatCounter value={nutritionPer100g.fatG} unit="%" label={tStats("fat")} />
               <StatCounter
@@ -131,7 +132,7 @@ export function ContentSection({ index }: { index: number }) {
               headingLevel="h4"
               href="/recipes"
               title={tone === "white" ? t("recipeTwoTitle") : t("recipeOneTitle")}
-              image={{ src: "/images/placeholders/yogurt-bowl.svg", alt: t("imageAlt") }}
+              image={{ src: "/media/placeholder-yogurt-bowl.svg", alt: t("imageAlt") }}
               meta={[
                 t("recipeMinutes", { minutes: tone === "white" ? 10 : 5 }),
                 t("recipeUses", { size: formatGrams(tone === "white" ? 500 : 150, locale) }),
@@ -152,7 +153,7 @@ export function ContentSection({ index }: { index: number }) {
       <div className="grid gap-12 lg:grid-cols-2">
         <Specimen title={t("image")}>
           <ResponsiveImage
-            src="/images/placeholders/yogurt-bowl.svg"
+            src="/media/placeholder-yogurt-bowl.svg"
             alt={t("imageAlt")}
             ratio="4/3"
           />
@@ -161,7 +162,7 @@ export function ContentSection({ index }: { index: number }) {
         <Specimen title={t("video")} note={t("videoNote")}>
           <div className="aspect-video overflow-hidden rounded-card bg-navy-900">
             <VideoLoop
-              poster="/images/placeholders/video-poster.svg"
+              poster="/media/placeholder-video-poster.svg"
               webm="/video/sample-loop.webm"
               mp4="/video/sample-loop.mp4"
               label={t("videoAlt")}

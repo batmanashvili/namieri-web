@@ -11,11 +11,15 @@ export type AnalyticsEventMap = {
   select_size: { item_id: string };
   add_to_cart: { item_id: string; quantity: number; price?: number };
   click_wolt: { location: string };
+  /** "Order now" clicks; section is where the button sits (hero, sizes, sticky, …). */
+  cta_order_click: { section: string };
+  /** A size chosen on the landing page (size cards, moments). */
+  select_size_from_landing: { item_id: string; section: string };
   begin_checkout: { value?: number };
   login: { method: "phone" | "email" | "google" };
   add_shipping_info: { zone?: string };
   purchase: { transaction_id: string; value: number };
-  b2b_form_submit: Record<string, never>;
+  b2b_form_submit: { business_type: string };
 };
 export type AnalyticsEvent = keyof AnalyticsEventMap;
 

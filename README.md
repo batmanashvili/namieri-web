@@ -1,11 +1,14 @@
 # Namieri web
 
-Website for **Namieri (ნამიერი)**, Greek yogurt made in Tbilisi. This is Phase 1: the
-foundation every later page builds on. It contains project setup, Georgian/English routing,
-design tokens, fonts, motion primitives and the component library, all shown on
-`/ka/styleguide` and `/en/styleguide`.
+Website for **Namieri (ნამიერი)**, Greek yogurt made in Tbilisi, in Georgian and English.
 
-Real pages, product, cart, auth and backend calls come in Phases 2–4.
+- **Phase 1** (foundation): project setup, routing, design tokens, fonts, motion primitives and
+  the component library, all shown on `/ka/styleguide` and `/en/styleguide`.
+- **Phase 2** (this release): the landing page and the information pages: About, Where to buy,
+  Contact with the wholesale form, FAQ, and draft Terms and Privacy pages.
+- Phases 3–4: product page, cart, sign-in and checkout.
+
+What Namieri still needs to supply before launch is listed in [BLOCKERS.md](BLOCKERS.md).
 
 ## Stack
 
@@ -53,32 +56,46 @@ preview URL. Vercel marks preview deployments `noindex` automatically.
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_SITE_URL`      | Absolute origin for canonical URLs, `hreflang` and Open Graph. On Vercel it falls back to the production domain. |
 | `NEXT_PUBLIC_API_BASE_URL`  | The existing Namieri backend. Not called in Phase 1.                                                             |
-| `NEXT_PUBLIC_WOLT_URL`      | Wolt venue ("Namieri Saburtalo"). "Order on Wolt" buttons hide or disable when empty.                            |
-| `NEXT_PUBLIC_INSTAGRAM_URL` | Instagram profile. Defaults to instagram.com/namieri.ge.                                                         |
-| `NEXT_PUBLIC_FACEBOOK_URL`  | Facebook page. The footer icon hides when empty.                                                                 |
+| `NEXT_PUBLIC_WOLT_URL`      | Wolt venue ("Namieri Saburtalo"). When empty, "Order on Wolt" becomes "Where to buy".                            |
+| `NEXT_PUBLIC_INSTAGRAM_URL` | Instagram profile. Defaults to instagram.com/namieri.ge. The DM button uses `ig.me/m/<handle>`.                  |
+| `NEXT_PUBLIC_FACEBOOK_URL`  | Facebook page. The footer icon and "Message on Facebook" hide when empty.                                        |
+| `NEXT_PUBLIC_MESSENGER_URL` | Optional Messenger link; otherwise derived from the Facebook page (`m.me/<page>`).                               |
+| `LEAD_WEBHOOK_URL`          | Server-side. Where wholesale enquiries are POSTed as JSON. See "Wholesale enquiries" below.                      |
+| `LEAD_WEBHOOK_SECRET`       | Server-side, optional. Sent as a bearer token with each enquiry.                                                 |
 
-These are read in `content/product.ts` (`links`) and `lib/site.ts`. `NEXT_PUBLIC_*` values
-are inlined at build time, so rebuild after changing them.
+These are read in `content/product.ts` (`links`), `lib/site.ts` and `lib/leads/submit.ts`.
+`NEXT_PUBLIC_*` values are inlined at build time, so rebuild after changing them.
 
 ## Project layout
 
 ```
 app/
   [locale]/              ka/en root layout, pages, localized 404 (not-found) and 500 (error)
+    page.tsx             the landing page (sections in components/home/)
+    about/, where-to-buy/, contact/, faq/, terms/, privacy/
+    contact/actions.ts   wholesale form server action
     styleguide/          the design-system page (noindex)
-    opengraph-image.tsx  default share image, from lib/og/template.tsx
+    opengraph-image.tsx  default share image; information pages have their own
+  sitemap.ts, robots.ts  sitemap with hreflang alternates (draft legal pages left out)
   icon.tsx, apple-icon.tsx  favicons rendered from public/brand/badge.svg
   not-found.tsx, global-error.tsx  bilingual fallbacks outside a locale
 components/
   ui/                    primitives, content blocks, forms, feedback
-  sections/              site chrome: Header, Footer, AnnouncementBar, StickyMobileCTA, ConsentBanner
+  sections/              site chrome (Header, Footer, …) and shared page sections (PageHero,
+                         BuyChannels, FaqList, LeadForm, MapEmbed, LegalPage)
+  home/                  the landing page's sections, one file each
   motion/                Reveal, Parallax, CountUp, PinnedScene, MotionProvider
-content/                 product.ts (single source of truth), navigation.ts
-lib/                     i18n, formatting, fonts, SEO, analytics, contrast, phone helpers
+  seo/                   JsonLd
+content/                 product.ts (single source of truth), home.ts, media.ts, faq.ts,
+                         recipes.ts, testimonials.ts, stores.ts, districts.ts, navigation.ts
+  legal/{ka,en}/         terms.md, privacy.md
+lib/                     i18n, formatting, fonts, SEO, structured data, analytics, leads,
+                         legal Markdown, contrast, phone helpers
 messages/                ka.json, en.json: every visible string
 styles/                  tokens.css (palette, type, spacing), globals.css (Tailwind theme), fonts/
 public/brand/            logo-ka.svg, logo-en.svg, badge.svg (placeholders)
-public/images/           placeholder product renders and lifestyle image
+public/images/products/  placeholder product renders
+public/media/            photo and video placeholders (placeholder-*), one per slot
 proxy.ts                 locale detection and redirects (Next 16 renamed middleware to proxy)
 ```
 
@@ -131,6 +148,32 @@ Facts that come with copy, like size labels, packaging and ingredient names, liv
   Wholesale prices must never go here.
 
 Items marked `[CONFIRM]` are still unverified: the milk wording and the recognition code.
+
+### Landing and page content
+
+Everything Namieri changes often is a content edit, not a code change:
+
+| File                      | Holds                                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `content/home.ts`         | The announcement bar (`null` hides it), the hero sizes, and which size each "moment" links to.           |
+| `content/media.ts`        | Every photo and video slot: `src`, size, aspect ratio and alt text in both languages.                    |
+| `content/faq.ts`          | FAQ entries. The first six appear on the landing page; all of them on `/faq`. Both get FAQPage data.     |
+| `content/recipes.ts`      | "In the kitchen" recipes (links go to Instagram).                                                        |
+| `content/testimonials.ts` | Reviews. The section is hidden while the list is empty. Publish only permitted quotes.                   |
+| `content/stores.ts`       | Retail partners (name, district, address, hours, optional map link). Empty shows "Stores coming soon".   |
+| `content/legal/`          | Terms and Privacy in Markdown, per language. `draft: true` shows the Draft banner and sets `noindex`.    |
+| `messages/*.json`         | Interface copy and the landing-page text (namespaces `Home`, `Buy`, `About`, `Contact`, `Faq`, `Legal`). |
+
+- **Swapping a placeholder for a photo**: put the file in `public/media/` and change `src`
+  (and `width`/`height`) in `content/media.ts`. Keep the slot's aspect ratio, which the
+  layout reserves.
+- **Turning on the hero video**: set `heroVideo.enabled: true` in `content/media.ts`, with
+  the real `mp4`, `webm` and `poster`.
+- **Launching the third size**: change its entry in `content/product.ts` (see above). Its
+  Coming soon card becomes a full size card, with price and link, on the landing page.
+- **Health wording**: only the approved, factual claims are used. `pnpm test` fails if
+  "probiotic", "immunity", "detox", "cure" or "treat" (in either language), or the
+  wholesale prices, appear in any copy.
 
 ## Design tokens
 
@@ -192,12 +235,38 @@ With `prefers-reduced-motion`, CSS shows every primitive in its final state from
 paint, and the JavaScript never starts. Elements already on screen at load are never hidden,
 so motion doesn't delay LCP or cause layout shift.
 
+The landing page's "two ingredients" scene uses `PinnedScene` for one screen of scroll. With
+reduced motion it isn't pinned and shows a static "milk + cultures = cup" illustration
+instead, and the counters show their final values.
+
 ## Analytics and consent
 
 `lib/analytics` exposes `track(event, params)` for the Brief's events (`view_item`,
 `add_to_cart`, `click_wolt`, …). Until the visitor accepts analytics cookies, nothing is
 sent, queued or loaded. After consent, events go to `window.dataLayer`. To connect GA4 or
 GTM, load the vendor script in `loadVendor()`.
+
+Phase 2 fires `cta_order_click` (with the section id), `click_wolt` (with its location),
+`select_size_from_landing` and `b2b_form_submit`. Server components place tracked buttons
+with `TrackedButton`.
+
+The Contact page map is a Google Maps embed. It loads only after the visitor clicks "Show
+map" or has accepted analytics cookies.
+
+## Wholesale enquiries
+
+The Contact page's wholesale form validates each field on blur and everything again on
+submit, then once more on the server (`lib/leads/schema.ts`). It posts through a server
+action to `submitLead()` in `lib/leads/submit.ts`, which picks a destination:
+
+- `LEAD_WEBHOOK_URL` set: the enquiry is POSTed there as JSON.
+- Not set, in development or a Vercel preview: it is logged to the server console and the
+  form shows its success state.
+- Not set, in production: it is refused, and the form shows Namieri's phone and email instead.
+  This way a real enquiry is never silently lost.
+
+No lead endpoint is documented for the existing backend yet. When one exists, add an adapter
+in `lib/leads/submit.ts`. The form never shows prices of any kind.
 
 ## Codebase knowledge graph (Graphify)
 
@@ -233,19 +302,49 @@ open graphify-out/graph.html        # interactive map
 
 ## Quality checks
 
-Measured on the production build:
+Measured on the production build (`pnpm build && pnpm start`), Lighthouse 13, mobile:
 
-- **Lighthouse (mobile)** on `/ka/styleguide` and `/en/styleguide`:
-  - Performance 92–94, Accessibility 100, Best Practices 100, CLS 0.
-  - SEO is 69. The page must be `noindex`, and Lighthouse's "Page is blocked from indexing"
-    audit fails on any `noindex` page. Every other SEO audit passes.
-- **Playwright** checks these acceptance criteria:
-  - every token, type style and component state renders, including the Coming soon card;
-  - language switching keeps the path;
-  - pages are no wider than 360 px, and long Georgian headings don't overflow;
-  - reduced motion leaves no running animations;
-  - consent gating works;
-  - dialogs close on Esc and return focus.
+| Page         | Performance | Accessibility | Best Practices | SEO | LCP (simulated 4G) | LCP (applied 4G) | CLS   | Weight  |
+| ------------ | ----------- | ------------- | -------------- | --- | ------------------ | ---------------- | ----- | ------- |
+| `/en` (home) | 97–98       | 100           | 100            | 100 | 2.4–2.5 s          | 1.5 s            | 0.001 | ~400 KB |
+| `/ka` (home) | 92–95       | 100           | 100            | 100 | 2.9–3.3 s          | 1.6 s            | 0.003 | ~430 KB |
+| `/en/about`  | 97          | 100           | 100            | 100 | 2.5 s              | 1.5 s            | 0     | ~375 KB |
+| `/ka/about`  | 96–97       | 100           | 100            | 100 | 2.2–2.6 s          | 1.4 s            | 0.043 | ~380 KB |
+
+- The LCP element is the hero heading, which paints about 0.2 s after the response. Lighthouse's
+  default simulation ("simulated 4G") also charges every request that starts before that paint
+  (framework JS and the fonts), which is why it reads higher than applied 4G throttling
+  (`--throttling-method=devtools`). The Georgian home page is the slowest because its four-line
+  heading waits on more font bytes.
+- To keep LCP down, fonts are not preloaded, Motion's animation features load after
+  hydration, and next-intl precompiles messages so the browser doesn't download an ICU parser.
+- `/ka/about`'s CLS of 0.043 is the Georgian display font swapping in on the long hero heading.
+- Results vary by ±0.3 s between runs; use PageSpeed Insights on the deployed site for field-like
+  numbers.
+
+**Playwright** (`pnpm test:e2e`, desktop and 360 px phone) checks:
+
+- every landing section renders in order in both languages;
+- every page in both languages at 360, 768, 1280 and 1920 px has no horizontal overflow and no
+  orphaned heading words;
+- the size cards: two orderable sizes and a Coming soon card without price or link;
+- every "Order now" goes to the product page, and the analytics events fire after consent;
+- Organization and FAQPage structured data, and a unique title, description and share image per
+  page;
+- the sticky mobile CTA appears after the hero, with the lowest price;
+- reduced motion: the pinned scene is static and the counters show their final values;
+- the map loads only after a click or consent;
+- the wholesale form validates on blur and on submit, and a valid enquiry shows the success state;
+- the legal drafts show the Draft banner and are `noindex`, and there is no returns page;
+- the Phase 1 checks: styleguide states, language switching, consent, dialogs.
+
+**Unit tests** (`pnpm test`) also check:
+
+- the health-claim and wholesale-price bans across all copy;
+- lead validation and the choice of adapter;
+- that the FAQ uses the product facts;
+- the media aspect ratios;
+- the legal Markdown parsing.
 
 The styleguide chapters use `content-visibility: auto` because the page is very long. If
 axe reports contrast on text inside a chapter, give that text an explicit `bg-surface`. The

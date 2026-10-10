@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <!-- PLACEHOLDER: hero video poster (navy, soft yogurt swirl). Replace with a photo at the same 1920:1080 ratio (see content/media.ts). -->
+  <defs><radialGradient id="g" cx=".68" cy=".45" r=".6"><stop offset="0" stop-color="#1A2D52"/><stop offset="1" stop-color="#0B1B36"/></radialGradient></defs><rect width="1920" height="1080" fill="url(#g)"/><path d="M1000 760c120-140 420-170 620-60s180 300-60 320-640-60-560-260Z" fill="#F6F2EA" opacity=".08"/><path d="M1080 700c160-100 380-90 500 10" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="30" stroke-linecap="round"/>
+</svg>

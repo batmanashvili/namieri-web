@@ -328,3 +328,54 @@ dialog[data-dialog][open]::backdrop {
     opacity: 0;
   }
 }
+
+/* ---- Legal documents (Markdown from content/legal) ----------------------- */
+.legal-prose {
+  color: var(--fg);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+.legal-prose > * + * {
+  margin-top: 1em;
+}
+.legal-prose h2 {
+  margin-top: 2.25em;
+  font-family: var(--type-display);
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  font-weight: 600;
+}
+.legal-prose h3 {
+  margin-top: 1.75em;
+  font-weight: 500;
+}
+.legal-prose ul,
+.legal-prose ol {
+  padding-inline-start: 1.25em;
+}
+.legal-prose ul {
+  list-style: disc;
+}
+.legal-prose ol {
+  list-style: decimal;
+}
+.legal-prose li + li {
+  margin-top: 0.5em;
+}
+.legal-prose li::marker {
+  color: var(--accent);
+}
+.legal-prose a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.legal-prose strong {
+  font-weight: 500;
+}
+.legal-prose code {
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background-color: var(--raised);
+}

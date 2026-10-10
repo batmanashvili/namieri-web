@@ -70,3 +70,15 @@ export function formatNutrient(key: NutrientKey, value: number, locale: Locale) 
     maximumFractionDigits: rounded.digits,
   }).format(rounded.value);
 }
+
+/** "10 October 2026" / "10 ოქტომბერი, 2026" from an ISO date (YYYY-MM-DD). */
+export function formatDate(isoDate: string, locale: Locale) {
+  const date = new Date(`${isoDate}T12:00:00Z`);
+  if (Number.isNaN(date.getTime())) return isoDate;
+  return new Intl.DateTimeFormat(intlLocale[locale], {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Asia/Tbilisi",
+  }).format(date);
+}
