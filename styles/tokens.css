@@ -1,0 +1,153 @@
+/*
+ * Namieri design tokens.
+ *
+ * Palette values come from the Website Brief and are working values. When the
+ * designer sends the official codes, change the hex values here and keep the
+ * names: every component reads these variables (via the Tailwind theme in
+ * globals.css), so nothing else needs to change.
+ */
+
+:root {
+  /* ---- Palette (Brief) ------------------------------------------------ */
+  --navy-900: #0b1b36; /* Midnight Navy: brand background, hero, header */
+  --navy-950: #060f22; /* Deep Ink: footer, darkest sections, video overlay */
+  --gold-500: #c8a35a; /* Aegean Gold: meander, hairlines, primary button */
+  --gold-300: #e3c887; /* Pale Gold: hover, small highlights on navy */
+  --gold-700: #7a5c22; /* Deep Gold: gold-coloured text on light backgrounds */
+  --cream-50: #f6f2ea; /* Yogurt Cream: light sections, cards on navy */
+  --white: #ffffff; /* Pure White: highlights, text on navy, input fields */
+  --ink-900: #13203a; /* Ink: body text and headings on light backgrounds */
+  --stone-600: #5c606b; /* Stone: secondary text on light backgrounds */
+  --glacier-300: #8ccfe3; /* Glacier Blue: focus rings and links on navy only */
+  --success: #276b4e; /* Confirmations, "in stock" (light backgrounds) */
+  --error: #b3412f; /* Form errors, payment failure (light backgrounds) */
+
+  /* ---- Derived (not in the Brief) ------------------------------------- */
+  /* error/success are only 3.0:1 / 2.3:1 on navy, so dark surfaces use these. */
+  --error-300: #f19a88; /* 7.9:1 on navy-900 */
+  --success-300: #7fcba4; /* 9.0:1 on navy-900 */
+
+  /* ---- Type families --------------------------------------------------- */
+  /* --nf-* variables are set by next/font in lib/fonts.ts. Swap fonts there. */
+  --type-display-latin: var(--nf-cormorant-garamond), "Times New Roman", serif;
+  --type-display-georgian: var(--nf-noto-serif-georgian), serif;
+  --type-display: var(--nf-cormorant-garamond), var(--nf-noto-serif-georgian), serif;
+  --type-body: var(--nf-firago), system-ui, sans-serif;
+
+  /* ---- Line heights (Latin). Georgian adds 0.1, see :lang(ka) ---------- */
+  --leading-display: 1.05;
+  --leading-h1: 1.1;
+  --leading-h2: 1.15;
+  --leading-h3: 1.25;
+  --leading-body: 1.6;
+  --leading-small: 1.5;
+
+  /* ---- Layout ----------------------------------------------------------- */
+  --container-max: 75rem; /* 1200px content width */
+  --gutter: clamp(1rem, 0.5rem + 2.222vw, 2.5rem); /* 16px at 360px → 40px at 1440px */
+  --section-pad-sm: clamp(4rem, 3.333rem + 2.963vw, 6rem); /* 64 → 96px */
+  --section-pad-lg: clamp(6rem, 4.667rem + 5.926vw, 10rem); /* 96 → 160px */
+  --header-height: 4.5rem;
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-reveal: 600ms;
+  --duration-ui: 200ms;
+}
+
+/* Georgian: display face first, and +0.1 line-height over Latin. */
+:lang(ka) {
+  --type-display: var(--nf-noto-serif-georgian), var(--nf-cormorant-garamond), serif;
+  --leading-display: 1.15;
+  --leading-h1: 1.2;
+  --leading-h2: 1.25;
+  --leading-h3: 1.35;
+  --leading-body: 1.7;
+  --leading-small: 1.6;
+}
+
+/*
+ * Surfaces. A <Section tone="…"> (or any element with data-surface) sets the
+ * semantic colours its children use, so every component adapts to navy,
+ * cream and white backgrounds without per-component variants.
+ */
+:root,
+[data-surface="white"] {
+  --surface: var(--white);
+  --fg: var(--ink-900);
+  --fg-muted: var(--stone-600);
+  --accent: var(--gold-700); /* never gold-500 text on light (2.4:1) */
+  --accent-fill: var(--gold-500);
+  --accent-fill-hover: var(--gold-300);
+  --on-accent: var(--navy-900);
+  --hairline: color-mix(in srgb, var(--ink-900) 12%, transparent);
+  --outline: var(--ink-900); /* secondary button border */
+  --field: var(--white);
+  --field-border: var(--stone-600); /* 6.3:1, inputs need ≥ 3:1 */
+  --field-border-hover: var(--ink-900);
+  --control-checked: var(--ink-900);
+  --on-control-checked: var(--white);
+  --focus: var(--ink-900);
+  --link: var(--ink-900);
+  --danger: var(--error);
+  --ok: var(--success);
+  --raised: var(--cream-50); /* cards on this surface */
+}
+
+[data-surface="cream"] {
+  --surface: var(--cream-50);
+  --fg: var(--ink-900);
+  --fg-muted: var(--stone-600);
+  --accent: var(--gold-700);
+  --accent-fill: var(--gold-500);
+  --accent-fill-hover: var(--gold-300);
+  --on-accent: var(--navy-900);
+  --hairline: color-mix(in srgb, var(--ink-900) 12%, transparent);
+  --outline: var(--ink-900);
+  --field: var(--white);
+  --field-border: var(--stone-600);
+  --field-border-hover: var(--ink-900);
+  --control-checked: var(--ink-900);
+  --on-control-checked: var(--white);
+  --focus: var(--ink-900);
+  --link: var(--ink-900);
+  --danger: var(--error);
+  --ok: var(--success);
+  --raised: var(--white);
+}
+
+[data-surface="navy"],
+[data-surface="ink"] {
+  --surface: var(--navy-900);
+  --fg: var(--white);
+  --fg-muted: color-mix(in srgb, var(--white) 75%, var(--navy-900)); /* 10:1 */
+  --accent: var(--gold-500);
+  --accent-fill: var(--gold-500);
+  --accent-fill-hover: var(--gold-300);
+  --on-accent: var(--navy-900);
+  --hairline: color-mix(in srgb, var(--gold-500) 35%, transparent);
+  --outline: var(--gold-500);
+  --field: var(--white);
+  --field-border: var(--white);
+  --field-border-hover: var(--gold-300);
+  --control-checked: var(--gold-500);
+  --on-control-checked: var(--navy-900);
+  --focus: var(--glacier-300);
+  --link: var(--glacier-300);
+  --danger: var(--error-300);
+  --ok: var(--success-300);
+  --raised: color-mix(in srgb, var(--white) 6%, var(--navy-900));
+}
+
+[data-surface="ink"] {
+  --surface: var(--navy-950);
+}
+
+/*
+ * Form fields are always white, so their text and errors use light-surface
+ * colours even when the field sits on navy.
+ */
+[data-field] {
+  --fg: var(--ink-900);
+  --fg-muted: var(--stone-600);
+}

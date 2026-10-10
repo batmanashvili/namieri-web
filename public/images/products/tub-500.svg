@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="480" height="480">
+  <!-- PLACEHOLDER render of the 500 g tub. Replace with the cut-out 3D render (WebP/PNG). -->
+  <defs>
+    <clipPath id="body"><path d="M68 196 92 384Q240 408 388 384L412 196Z"/></clipPath>
+    <pattern id="key" width="14.4" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 11.4H3.6V.6h9.6v7.8h-6V4.2h3M3.6 11.4h10.8" fill="none" stroke="#C8A35A" stroke-width="1.2" stroke-linecap="square"/>
+    </pattern>
+    <linearGradient id="shade" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".14"/>
+      <stop offset=".35" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".8" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".28"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="240" cy="396" rx="168" ry="16" fill="#060F22" opacity=".35"/>
+  <g clip-path="url(#body)">
+    <rect x="50" y="180" width="380" height="240" fill="#0B1B36"/>
+    <rect x="50" y="226" width="380" height="12" fill="url(#key)"/>
+    <path d="M50 220h380M50 244h380" stroke="#C8A35A" stroke-width="1.5"/>
+    <path d="M50 342c60-34 124-34 190-10s128 24 190-8V420H50Z" fill="#fff"/>
+    <rect x="50" y="180" width="380" height="240" fill="url(#shade)"/>
+  </g>
+  <path d="M60 170h360v20q-180 26-360 0Z" fill="#0B1B36"/>
+  <path d="M60 190q180 26 360 0" fill="none" stroke="#C8A35A" stroke-width="2"/>
+  <ellipse cx="240" cy="170" rx="180" ry="26" fill="#13203A"/>
+  <ellipse cx="240" cy="166" rx="166" ry="20" fill="#0B1B36" stroke="#C8A35A" stroke-width="1.5"/>
+  <path d="M120 160c40-9 90-12 140-10" stroke="#fff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

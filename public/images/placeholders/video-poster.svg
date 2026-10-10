@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <!-- PLACEHOLDER poster for the hero video slot (Phase 2). -->
+  <rect width="1280" height="720" fill="#0B1B36"/>
+  <path d="M0 520c160-60 320-60 480-20s320 60 480 20 240-50 320-60V720H0Z" fill="#F6F2EA" opacity=".35"/>
+  <path d="M0 560c180-50 360-40 540-6s340 40 500 0 200-40 240-44V720H0Z" fill="#fff"/>
+  <circle cx="640" cy="300" r="64" fill="none" stroke="#C8A35A" stroke-width="2"/>
+  <path d="M624 270v60l50-30Z" fill="#C8A35A"/>
+</svg>
