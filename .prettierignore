@@ -1,0 +1,8 @@
+pnpm-lock.yaml
+.next
+node_modules
+public
+styles/fonts
+messages/*.d.json.ts
+playwright-report
+test-results

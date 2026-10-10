@@ -1,0 +1,330 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/*
+ * Interaction variants also match data-preview="hover|focus|active", so the
+ * styleguide can show every state statically. Nothing else sets data-preview.
+ */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+  &[data-preview~="hover"] {
+    @slot;
+  }
+}
+@custom-variant active {
+  &:active {
+    @slot;
+  }
+  &[data-preview~="active"] {
+    @slot;
+  }
+}
+@custom-variant focus-visible {
+  &:focus-visible {
+    @slot;
+  }
+  &[data-preview~="focus"] {
+    @slot;
+  }
+}
+
+/* Only brand tokens exist: no default palette, shadows or type sizes. */
+@theme {
+  --color-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --font-*: initial;
+
+  --radius-control: 6px; /* buttons, inputs */
+  --radius-card: 12px; /* cards */
+  --radius-pill: 999px;
+
+  /* Fluid type scale, 360px → 1440px viewport. */
+  --text-display: clamp(3rem, 1.833rem + 5.185vw, 6.5rem); /* 48 → 104px */
+  --text-display--letter-spacing: -0.01em;
+  --text-h1: clamp(2.5rem, 2rem + 2.222vw, 4rem); /* 40 → 64px */
+  --text-h1--letter-spacing: -0.005em;
+  --text-h2: clamp(2rem, 1.667rem + 1.481vw, 3rem); /* 32 → 48px */
+  --text-h3: clamp(1.5rem, 1.375rem + 0.556vw, 1.875rem); /* 24 → 30px */
+  --text-body: clamp(1.0625rem, 1.042rem + 0.093vw, 1.125rem); /* 17 → 18px */
+  --text-small: 0.875rem; /* 14px */
+  --text-eyebrow: 0.875rem; /* 14px, tracked */
+  --text-eyebrow--letter-spacing: 0.08em;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  /* Palette */
+  --color-navy-900: var(--navy-900);
+  --color-navy-950: var(--navy-950);
+  --color-gold-500: var(--gold-500);
+  --color-gold-300: var(--gold-300);
+  --color-gold-700: var(--gold-700);
+  --color-cream-50: var(--cream-50);
+  --color-white: var(--white);
+  --color-ink-900: var(--ink-900);
+  --color-stone-600: var(--stone-600);
+  --color-glacier-300: var(--glacier-300);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-error-300: var(--error-300);
+  --color-success-300: var(--success-300);
+
+  /* Semantic, surface-aware colours (see tokens.css) */
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+  --color-accent-fill-hover: var(--accent-fill-hover);
+  --color-on-accent: var(--on-accent);
+  --color-hairline: var(--hairline);
+  --color-outline: var(--outline);
+  --color-field: var(--field);
+  --color-field-border: var(--field-border);
+  --color-field-border-hover: var(--field-border-hover);
+  --color-control-checked: var(--control-checked);
+  --color-on-control-checked: var(--on-control-checked);
+  --color-focus: var(--focus);
+  --color-link: var(--link);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --color-raised: var(--raised);
+
+  --font-display: var(--type-display);
+  --font-display-latin: var(--type-display-latin);
+  --font-display-georgian: var(--type-display-georgian);
+  --font-body: var(--type-body);
+
+  --text-display--line-height: var(--leading-display);
+  --text-h1--line-height: var(--leading-h1);
+  --text-h2--line-height: var(--leading-h2);
+  --text-h3--line-height: var(--leading-h3);
+  --text-body--line-height: var(--leading-body);
+  --text-small--line-height: var(--leading-small);
+  --text-eyebrow--line-height: var(--leading-small);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background-color: var(--navy-950);
+    scroll-padding-top: var(--header-height);
+  }
+
+  body {
+    min-height: 100dvh;
+    padding-bottom: var(--consent-space, 0px);
+    background-color: var(--surface);
+    color: var(--fg);
+    font-family: var(--type-body);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Long Georgian words: wrap headings gracefully instead of overflowing. */
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  :focus-visible,
+  [data-preview~="focus"] {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--gold-500) 45%, transparent);
+  }
+
+  /* Native dialogs (Modal, Drawer, mobile menu) lock page scroll while open. */
+  html:has(dialog[open]:modal) {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Reduced motion: remove every CSS animation and transition. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Eyebrows are uppercased in Latin only: FiraGO has no Mtavruli glyphs. */
+  .eyebrow {
+    font-family: var(--type-body);
+    font-weight: 500;
+    font-size: var(--text-eyebrow);
+    line-height: var(--leading-small);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .eyebrow:lang(ka) {
+    text-transform: none;
+    letter-spacing: 0.04em;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: calc(var(--container-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* First section of an overlay-header page: slides up beneath the transparent header. */
+@utility under-header {
+  margin-top: calc(-1 * var(--header-height));
+  padding-top: var(--header-height);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+@utility sr-only-focusable {
+  &:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* ---- Reveal (components/motion/Reveal.tsx) ---------------------------- */
+[data-reveal] {
+  transition:
+    opacity var(--duration-reveal) var(--ease-out),
+    translate var(--duration-reveal) var(--ease-out);
+}
+[data-reveal="hidden"] {
+  opacity: 0;
+  translate: 0 16px;
+}
+
+/* Reduced motion: motion primitives render their final, static state from the first paint. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+  }
+  [data-parallax] > * {
+    transform: none !important;
+  }
+  [data-pinned] {
+    height: auto !important;
+  }
+  [data-pinned-stage] {
+    position: relative;
+    height: auto;
+    min-height: 32rem;
+  }
+}
+
+/* ---- Yogurt wave drift (components/ui/YogurtWave.tsx) ------------------ */
+@keyframes wave-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---- Skeleton shimmer --------------------------------------------------- */
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Dialog enter/exit (Modal, Drawer, mobile menu) ---------------------- */
+dialog[data-dialog] {
+  opacity: 0;
+  transition:
+    opacity var(--duration-ui) var(--ease-out),
+    translate 320ms var(--ease-out),
+    overlay 320ms allow-discrete,
+    display 320ms allow-discrete;
+}
+dialog[data-dialog="drawer"] {
+  translate: 100% 0;
+}
+dialog[data-dialog="modal"] {
+  translate: 0 12px;
+}
+dialog[data-dialog][open] {
+  opacity: 1;
+  translate: 0 0;
+}
+@starting-style {
+  dialog[data-dialog][open] {
+    opacity: 0;
+  }
+  dialog[data-dialog="drawer"][open] {
+    translate: 100% 0;
+  }
+  dialog[data-dialog="modal"][open] {
+    translate: 0 12px;
+  }
+}
+dialog[data-dialog]::backdrop {
+  background-color: color-mix(in srgb, var(--navy-950) 70%, transparent);
+  opacity: 0;
+  transition:
+    opacity var(--duration-ui) var(--ease-out),
+    overlay 320ms allow-discrete,
+    display 320ms allow-discrete;
+}
+dialog[data-dialog][open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  dialog[data-dialog][open]::backdrop {
+    opacity: 0;
+  }
+}

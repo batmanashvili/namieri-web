@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="480" height="480">
+  <!-- PLACEHOLDER render of the 150 g cup. Replace with the cut-out 3D render (WebP/PNG). -->
+  <defs>
+    <clipPath id="body"><path d="M118 156 146 392Q240 414 334 392L362 156Z"/></clipPath>
+    <pattern id="key" width="14.4" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 11.4H3.6V.6h9.6v7.8h-6V4.2h3M3.6 11.4h10.8" fill="none" stroke="#C8A35A" stroke-width="1.2" stroke-linecap="square"/>
+    </pattern>
+    <linearGradient id="shade" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".14"/>
+      <stop offset=".35" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".8" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".28"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="240" cy="404" rx="118" ry="14" fill="#060F22" opacity=".35"/>
+  <g clip-path="url(#body)">
+    <rect x="100" y="140" width="280" height="290" fill="#0B1B36"/>
+    <rect x="100" y="182" width="280" height="12" fill="url(#key)"/>
+    <path d="M100 176h280M100 200h280" stroke="#C8A35A" stroke-width="1.5"/>
+    <path d="M100 346c46-30 92-30 140-8s96 22 140-6V430H100Z" fill="#fff"/>
+    <path d="M100 330c46-26 92-26 140-6s96 20 140-6" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+    <rect x="100" y="140" width="280" height="290" fill="url(#shade)"/>
+  </g>
+  <ellipse cx="240" cy="156" rx="122" ry="22" fill="#C8A35A"/>
+  <ellipse cx="240" cy="152" rx="114" ry="17" fill="#E3C887"/>
+  <path d="M150 148c30-8 70-11 110-9" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

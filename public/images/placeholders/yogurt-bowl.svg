@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <!-- PLACEHOLDER lifestyle image: replace with a warm, natural-light photo (no old packaging). -->
+  <defs>
+    <pattern id="linen" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M0 2h8M0 6h8" stroke="#13203A" stroke-opacity=".035"/>
+      <path d="M2 0v8M6 0v8" stroke="#13203A" stroke-opacity=".025"/>
+    </pattern>
+    <radialGradient id="light" cx=".3" cy=".2" r=".9">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="900" fill="#EDE5D6"/>
+  <rect width="1200" height="900" fill="url(#linen)"/>
+  <rect width="1200" height="900" fill="url(#light)"/>
+  <ellipse cx="620" cy="560" rx="330" ry="120" fill="#13203A" opacity=".08"/>
+  <path d="M290 470q0 170 330 190 330-20 330-190Z" fill="#fff" stroke="#13203A" stroke-opacity=".15" stroke-width="2"/>
+  <ellipse cx="620" cy="470" rx="330" ry="96" fill="#fff" stroke="#13203A" stroke-opacity=".15" stroke-width="2"/>
+  <ellipse cx="620" cy="474" rx="296" ry="78" fill="#F6F2EA"/>
+  <path d="M430 470c60-40 160-50 250-30s120 40 60 60-210 14-250-8 30-40 110-36" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+  <path d="M470 440c50 30 90 60 160 40s100-60 170-40" fill="none" stroke="#C8A35A" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+  <path d="M560 470c20 10 50 14 80 6" fill="none" stroke="#E3C887" stroke-width="7" stroke-linecap="round"/>
+  <g fill="#7A5C22" opacity=".85">
+    <path d="M700 452c14-12 38-10 46 4s-4 30-22 30-36-18-24-34Z"/>
+    <path d="M520 488c10-14 32-16 42-4s2 30-16 32-34-12-26-28Z"/>
+  </g>
+  <path d="M880 300 1010 170" stroke="#C8A35A" stroke-width="14" stroke-linecap="round"/>
+  <ellipse cx="858" cy="324" rx="40" ry="26" transform="rotate(-45 858 324)" fill="#E3C887"/>
+</svg>
