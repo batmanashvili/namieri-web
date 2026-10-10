@@ -12,6 +12,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "graph": "graphify update .",
     "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm test"
   },
   "dependencies": {

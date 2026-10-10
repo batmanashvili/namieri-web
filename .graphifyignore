@@ -1,0 +1,7 @@
+# Graphify honours .gitignore too; these are tracked files that add noise, not structure.
+pnpm-lock.yaml
+public/video/
+public/images/
+styles/fonts/
+lib/og/*.woff
+.claude/skills/graphify/

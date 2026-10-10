@@ -6,3 +6,6 @@ styles/fonts
 messages/*.d.json.ts
 playwright-report
 test-results
+graphify-out
+.claude/skills/graphify
+.claude/CLAUDE.md
