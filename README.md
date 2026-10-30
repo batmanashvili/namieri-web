@@ -46,9 +46,18 @@ Chromium, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`.
 
 ### Deploying
 
-Import the repository into Vercel (framework: Next.js; no extra config) and set the
-environment variables below for Preview and Production. Every pull request then gets a
-preview URL. Vercel marks preview deployments `noindex` automatically.
+Import the repository into Vercel (framework: Next.js) and set the environment variables
+below for Preview and Production.
+
+Branches:
+
+- **`dev`** is the only branch Vercel deploys. Every push to `dev` goes live on the
+  Vercel production domain. Work in a feature branch and merge it into `dev` to deploy.
+- **`main`** holds tested, working code only. Merge `dev` into `main` after checking the
+  deployed site. Pushes to `main` (and to any other branch) never deploy.
+
+This is set in `vercel.json` (`git.deploymentEnabled`) and by the project's production
+branch in Vercel (Settings → Environments → Production → Branch Tracking = `dev`).
 
 ## Environment variables
 
