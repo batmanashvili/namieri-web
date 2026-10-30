@@ -53,8 +53,15 @@ Branches:
 
 - **`dev`** is the only branch Vercel deploys. Every push to `dev` goes live on the
   Vercel production domain. Work in a feature branch and merge it into `dev` to deploy.
-- **`main`** holds tested, working code only. Merge `dev` into `main` after checking the
-  deployed site. Pushes to `main` (and to any other branch) never deploy.
+- **`main`** holds tested, working code only, and only the repo owner updates it. AI agents
+  open a pull request from `dev` into `main`; the owner merges it after checking the deployed
+  site. Pushes to `main` (and to any other branch) never deploy.
+
+AI agents are blocked from changing `main` by a Claude Code hook
+(`.claude/hooks/protect-main.mjs`, registered in `.claude/settings.json`). It stops pushes to
+`main`, commits, merges and rebases while on `main`, and merging pull requests. Agent rules
+are in `CLAUDE.md`. A GitHub ruleset on `main` additionally blocks force-pushes and deletion,
+and requires a pull request from anyone who isn't a repo admin.
 
 This is set in `vercel.json` (`git.deploymentEnabled`) and by the project's production
 branch in Vercel (Settings → Environments → Production → Branch Tracking = `dev`).
